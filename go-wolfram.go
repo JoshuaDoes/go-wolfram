@@ -19,61 +19,63 @@ type Client struct {
 type QueryResult struct {
 	Query string
 
-	//The pods are what hold the majority of the information
-	Pods []Pod `json:"pod"`
+	QueryResult struct {
+		//The pods are what hold the majority of the information
+		Pods []Pod `json:"pods"`
 
-	//Warnings hold information about for example spelling errors
-	Warnings Warnings `json:"warnings"`
+		//Warnings hold information about for example spelling errors
+		Warnings Warnings `json:"warnings"`
 
-	//Assumptions show info if some assumption was made while parsing the query
-	Assumptions Assumptions `json:"assumptions"`
+		//Assumptions show info if some assumption was made while parsing the query
+		Assumptions Assumptions `json:"assumptions"`
 
-	//Each Source contains a link to a web page with the source information
-	Sources Sources `json:"sources"`
+		//Each Source contains a link to a web page with the source information
+		Sources []Sources `json:"sources"`
 
-	//Generalizes the query to display more information
-	Generalizations []Generalization `json:"generalization"`
+		//Generalizes the query to display more information
+		Generalizations []Generalization `json:"generalization"`
 
-	//true or false depending on whether the input could be successfully
-	//understood. If false there will be no <pod> subelements
-	Success string `json:"success"`
+		//true or false depending on whether the input could be successfully
+		//understood. If false there will be no <pod> subelements
+		Success bool `json:"success"`
 
-	//true or false depending on whether a serious processing error occurred,
-	//such as a missing required parameter. If true there will be no pod
-	//content, just an <error> sub-element.
-	Error string `json:"error"`
+		//true or false depending on whether a serious processing error occurred,
+		//such as a missing required parameter. If true there will be no pod
+		//content, just an <error> sub-element.
+		Error bool `json:"error"`
 
-	//The number of pod elements
-	NumPods int `json:"numpods"`
+		//The number of pod elements
+		NumPods int `json:"numpods"`
 
-	//Categories and types of data represented in the results
-	DataTypes string `json:"datatypes"`
+		//Categories and types of data represented in the results
+		DataTypes string `json:"datatypes"`
 
-	//The number of pods that are missing because they timed out (see the
-	//scantimeout query parameter).
-	TimedOut string `json:"timedout"`
+		//The number of pods that are missing because they timed out (see the
+		//scantimeout query parameter).
+		TimedOut string `json:"timedout"`
 
-	//The wall-clock time in seconds required to generate the output.
-	Timing float64 `json:"timing"`
+		//The wall-clock time in seconds required to generate the output.
+		Timing float64 `json:"timing"`
 
-	//The time in seconds required by the parsing phase.
-	ParseTiming float64 `json:"parsetiming"`
+		//The time in seconds required by the parsing phase.
+		ParseTiming float64 `json:"parsetiming"`
 
-	//Whether the parsing stage timed out (try a longer parsetimeout parameter
-	//if true)
-	ParseTimedOut string `json:"parsetimedout"`
+		//Whether the parsing stage timed out (try a longer parsetimeout parameter
+		//if true)
+		ParseTimedOut bool `json:"parsetimedout"`
 
-	//A URL to use to recalculate the query and get more pods.
-	ReCalculate string `json:"recalculate"`
+		//A URL to use to recalculate the query and get more pods.
+		ReCalculate string `json:"recalculate"`
 
-	//These elements are not documented currently
-	ID      string `json:"id"`
-	Host    string `json:"host"`
-	Server  int    `json:"server"`
-	Related string `json:"related"`
+		//These elements are not documented currently
+		ID      string `json:"id"`
+		Host    string `json:"host"`
+		Server  string `json:"server"`
+		Related string `json:"related"`
 
-	//The version specification of the API on the server that produced this result.
-	Version string `json:"version"`
+		//The version specification of the API on the server that produced this result.
+		Version string `json:"version"`
+	}
 }
 
 type Generalization struct {
@@ -153,11 +155,11 @@ type Value struct {
 //<pod> elements are subelements of <queryresult>. Each contains the results for a single pod
 type Pod struct {
 	//The subpod elements of the pod
-	SubPods []SubPod `json:"subpod"`
+	SubPods []SubPod `json:"subpods"`
 
 	//sub elements of the pod
 	Infos  Infos  `json:"infos"`
-	States States `json:"states"`
+	States []States `json:"states"`
 
 	//The pod title, used to identify the pod.
 	Title string `json:"title"`
@@ -169,7 +171,7 @@ type Pod struct {
 	//Not documented currently
 	ID         string `json:"id"`
 	Position   int    `json:"position"`
-	Error      string `json:"error"`
+	Error      bool   `json:"error"`
 	NumSubPods int    `json:"numsubpods"`
 	Sounds     Sounds `json:"sounds"`
 }

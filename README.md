@@ -2,13 +2,13 @@
 Single file library for the Wolfram Alpha API written in Golang without extra dependencies
 
 # Installing
-`go get github.com/Krognol/go-wolfram`
+`go get github.com/JoshuaDoes/go-wolfram`
 
 # Example
 ```go
 package main
 
-import "github.com/Krognol/go-wolfram"
+import "github.com/JoshuaDoes/go-wolfram"
 
 func main() {
 	//Initialize a new client
@@ -20,14 +20,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	
+	resObj := res.QueryResult
 
 	//Iterate through the pods and subpods
 	//and print out their title attributes
-	for i := range res.Pods {
-		println(res.Pods[i].Title)
+	for i := range resObj.Pods {
+		println(resObj.Pods[i].Title)
 
-		for j := range res.Pods[i].SubPods {
-			println(res.Pods[i].SubPods[j].Title)
+		for j := range resObj.Pods[i].SubPods {
+			println(resObj.Pods[i].SubPods[j].Title)
 		}
 	}
 }
@@ -50,7 +52,7 @@ func main() {
 ```go
 package main
 
-import "github.com/Krognol/go-wolfram"
+import "github.com/JoshuaDoes/go-wolfram"
 
 func main() {
 	//Initialize a new client
@@ -65,14 +67,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	
+	resObj := res.QueryResult
 
 	//Iterate through the pods and subpods
 	//and print out their title attributes
-	for i := range res.Pods {
-		println(res.Pods[i].Title)
+	for i := range resObj.Pods {
+		println(resObj.Pods[i].Title)
 
-		for j := range res.Pods[i].SubPods {
-			println(res.Pods[i].SubPods[j].Title)
+		for j := range resObj.Pods[i].SubPods {
+			println(resObj.Pods[i].SubPods[j].Title)
 		}
 	}
 }
