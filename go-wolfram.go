@@ -30,7 +30,7 @@ type QueryResult struct {
 		Assumptions Assumptions `json:"assumptions"`
 
 		//Each Source contains a link to a web page with the source information
-		Sources []Sources `json:"sources"`
+		//Sources []Sources `json:"sources"`
 
 		//Generalizes the query to display more information
 		Generalizations []Generalization `json:"generalization"`
@@ -158,7 +158,7 @@ type Pod struct {
 	SubPods []SubPod `json:"subpods"`
 
 	//sub elements of the pod
-	Infos  Infos  `json:"infos"`
+	Infos  []Infos  `json:"infos"`
 	States []States `json:"states"`
 
 	//The pod title, used to identify the pod.
@@ -209,7 +209,8 @@ type Link struct {
 
 //Each Source contains a link to a web page with the source information
 type Sources struct {
-	Count  int      `json:"count"`
+	URL  string `json:"url"`
+	Text string `json:"text"`
 	Source []Source `json:"source"`
 }
 
