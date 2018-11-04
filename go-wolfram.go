@@ -209,8 +209,8 @@ type Link struct {
 
 //Each Source contains a link to a web page with the source information
 type Sources struct {
-	URL  string `json:"url"`
-	Text string `json:"text"`
+	URL    string   `json:"url"`
+	Text   string   `json:"text"`
 	Source []Source `json:"source"`
 }
 
@@ -343,7 +343,7 @@ func (c *Client) GetShortAnswerQuery(query string, units Unit, timeout int) (str
 	return string(b), nil
 }
 
-func (c *Client) GetSpokentAnswerQuery(query string, units Unit, timeout int) (string, error) {
+func (c *Client) GetSpokenAnswerQuery(query string, units Unit, timeout int) (string, error) {
 	query = url.QueryEscape(query)
 
 	switch units {
@@ -368,6 +368,50 @@ func (c *Client) GetSpokentAnswerQuery(query string, units Unit, timeout int) (s
 		return "", err
 	}
 	return string(b), nil
+}
+
+type Conversation struct {
+	Result         string `json:"result"`
+	ConversationID string `json:"conversationID"`
+	Host           string `json:"host"`
+	S              string `json:"s"`
+	ErrorMessage   string `json:"error"`
+}
+
+func (c *Client) GetConversationalQuery(query string, units Unit, lastResult *Conversation) (*Conversation, error) {
+	query = url.QueryEscape(query)
+	host := "api.wolframalpha.com/v1/conversation.jsp"
+
+	switch units {
+	case Imperial:
+		query += "&units=imperial"
+	case Metric:
+		query += "&units=metric"
+	}
+
+	if lastResult != nil {
+		if lastResult.ErrorMessage == "" {
+			host = lastResult.Host + "/api/v1/conversation.jsp"
+			query += "&conversationid=" + lastResult.ConversationID
+			if lastResult.S != "" {
+				query += "&s=" + lastResult.S
+			}
+		}
+	}
+
+	query = fmt.Sprintf("https://%s?appid=%s&i=%s", host, c.AppID, query)
+
+	res, err := http.Get(query)
+	if err != nil {
+		return nil, err
+	}
+
+	qres := &Conversation{}
+	err = unmarshal(res, qres)
+	if err != nil {
+		return nil, err
+	}
+	return qres, nil
 }
 
 type Mode int
