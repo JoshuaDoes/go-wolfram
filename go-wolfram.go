@@ -390,7 +390,7 @@ func (c *Client) GetConversationalQuery(query string, units Unit, lastResult *Co
 	}
 
 	if lastResult != nil {
-		if lastResult.ErrorMessage == "" {
+		if lastResult.ErrorMessage == "" && lastResult.ConversationID != "" {
 			host = lastResult.Host + "/api/v1/conversation.jsp"
 			query += "&conversationid=" + lastResult.ConversationID
 			if lastResult.S != "" {
